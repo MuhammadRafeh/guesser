@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
 
 const StartGameScreen = props => {
     return (
@@ -7,6 +7,7 @@ const StartGameScreen = props => {
             <Text style={styles.title}>Start a New Game!</Text>
             <View style={styles.inputContainer}>
                 <Text>Select a Number</Text>
+                <TextInput />
                 <View style={styles.buttonContainer}>
                     <Button title='Reset' onPress={() => {}}/>
                     <Button title='Confirm' onPress={() => { }}/>
@@ -31,7 +32,15 @@ const styles = StyleSheet.create({
     inputContainer: {
         width: 300,
         maxWidth: '80%',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: 'black',
+        shadowOpacity: 0.26,
+        shadowRadius: 6,
+        shadowOffset: { width: 0, height: 2 },
+        elevation: 5,
+        padding: 20,
+        borderRadius: 10,
+        backgroundColor: 'white'
     },
     buttonContainer: {
         flexDirection: 'row',
