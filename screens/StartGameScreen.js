@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const StartGameScreen = props => {
     return (
         <View style={styles.screen}>
-
+            <Text>The Game Screen!</Text>
         </View>
     );
 }
