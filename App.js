@@ -3,21 +3,30 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Header from './components/Header';
+import EndGameScreen from './screens/EndGameScreen';
 import GameScreen from './screens/GameScreen';
 import StartGameScreen from './screens/StartGameScreen';
 
 function App() {
 
   const [userNumber, setUserNumber] = useState();
+  const [rounds, setRounds] = useState(0)
 
   const startGameHandler = (selectedNumber) => {
-    setUserNumber(selectedNumber)
+    setUserNumber(selectedNumber);
+    setRounds(0);
+  }
+
+  onGameEndHandler = rounds => {
+    setRounds(rounds);
   }
 
   let content = <StartGameScreen onStartGame={startGameHandler}/>;
   
-  if (userNumber) {
-     content = <GameScreen userChoice={userNumber}/>
+  if (userNumber && rounds <= 0) {
+     content = <GameScreen userChoice={userNumber} onGameEnd={onGameEndHandler}/>
+  } else if (userNumber && rounds > 0) {
+    content = <EndGameScreen />
   }
   
   return (
