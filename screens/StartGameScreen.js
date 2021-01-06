@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Ale
 
 import Card from '../components/Card';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
 import colors from '../constants/colors';
 
 const StartGameScreen = props => {
 
-    const [ enteredValue, setEnteredValue ] = useState('');
+    const [enteredValue, setEnteredValue] = useState('');
     const [confirmed, setConfirmed] = useState(false);
     const [selectedNumber, setSelectedNumber] = useState();
 
@@ -24,21 +25,28 @@ const StartGameScreen = props => {
         const chosenNumber = parseInt(enteredValue);
         if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
             Alert.alert(
-                'Invalid Number!', 
-                'Number has to be a number between 1 and 99.', 
-                [{text: 'Okay', style: 'destructive', onPress: resetInputHandler}]
+                'Invalid Number!',
+                'Number has to be a number between 1 and 99.',
+                [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }]
             )
             return;
         }
         setConfirmed(true);
         setSelectedNumber(chosenNumber);
         setEnteredValue('');
+        Keyboard.dismiss();
     }
 
     let confirmedOutput;
 
     if (confirmed) {
-        confirmedOutput = <Text>Chosen Number is: {selectedNumber}</Text>
+        confirmedOutput = (
+            <Card style={styles.summaryContainer}>
+                <Text>You Selected</Text>
+                <NumberContainer>{selectedNumber}</NumberContainer>
+                <Button title="START GAME" />
+            </Card>
+        )
     }
 
     return (
@@ -49,7 +57,7 @@ const StartGameScreen = props => {
                 <Text style={styles.title}>Start a New Game!</Text>
                 <Card style={styles.inputContainer}>
                     <Text>Select a Number</Text>
-                    <Input 
+                    <Input
                         style={styles.Input}
                         // blurOnSubmit={false} //Bydefault it's true
                         autoCapitalize="none"
@@ -61,10 +69,10 @@ const StartGameScreen = props => {
                     />
                     <View style={styles.buttonContainer}>
                         <View style={styles.button}>
-                            <Button title='Reset' onPress={resetInputHandler} color={colors.accent}/>
+                            <Button title='Reset' onPress={resetInputHandler} color={colors.accent} />
                         </View>
                         <View style={styles.button}>
-                            <Button title='Confirm' onPress={confirmInputHandler} color={colors.primary}/>
+                            <Button title='Confirm' onPress={confirmInputHandler} color={colors.primary} />
                         </View>
                     </View>
                 </Card>
@@ -84,7 +92,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        marginVertical: 10,   
+        marginVertical: 10,
     },
     inputContainer: {
         width: 300,
@@ -103,5 +111,9 @@ const styles = StyleSheet.create({
     Input: {
         width: 50,
         textAlign: 'center'
+    },
+    summaryContainer: {
+        marginTop: 20,
+        alignItems: 'center'
     }
 });
