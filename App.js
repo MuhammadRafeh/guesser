@@ -12,12 +12,17 @@ function App() {
   const [userNumber, setUserNumber] = useState();
   const [rounds, setRounds] = useState(0)
 
+  const configureNewGameHandler = () => {
+    setRounds(0);
+    setUserNumber(null);
+  };
+
   const startGameHandler = (selectedNumber) => {
     setUserNumber(selectedNumber);
     setRounds(0);
   }
 
-  onGameEndHandler = rounds => {
+  const onGameEndHandler = rounds => {
     setRounds(rounds);
   }
 
@@ -26,7 +31,11 @@ function App() {
   if (userNumber && rounds <= 0) {
      content = <GameScreen userChoice={userNumber} onGameEnd={onGameEndHandler}/>
   } else if (userNumber && rounds > 0) {
-    content = <EndGameScreen />
+    content = <EndGameScreen 
+                roundsNumber={rounds} 
+                userNumber={userNumber} 
+                onRestart={configureNewGameHandler}
+              />
   }
   
   return (
