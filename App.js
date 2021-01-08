@@ -16,8 +16,8 @@ function App() {
   const [rounds, setRounds] = useState(0)
 
   let [fontsLoaded] = useFonts({
-    'open-sans-regular': require('./assets/fonts/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf')
   });
 
   if (!fontsLoaded) {
