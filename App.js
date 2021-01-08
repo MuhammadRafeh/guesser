@@ -39,6 +39,12 @@ function App() {
   }
 
   let content = <StartGameScreen onStartGame={startGameHandler}/>;
+
+  content = <EndGameScreen 
+                roundsNumber={2} 
+                userNumber={2} 
+                onRestart={configureNewGameHandler}
+              />
   
   if (userNumber && rounds <= 0) {
      content = <GameScreen userChoice={userNumber} onGameEnd={onGameEndHandler}/>
