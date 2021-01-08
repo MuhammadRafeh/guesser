@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import BodyText from '../components/BodyText';
+import MainButton from '../components/MainButton';
 import TitleText from '../components/TitleText';
 import colors from '../constants/colors';
 
@@ -24,7 +25,10 @@ const EndGameScreen = props => {
                 <Text style={styles.highlight}> {props.userNumber}</Text>
             </BodyText>
         </View>
-        <Button title="NEW GAME" onPress={props.onRestart} />
+        {/* <Button title="NEW GAME" onPress={props.onRestart} /> */}
+        <MainButton onPress={props.onRestart}>
+            NEW GAME
+        </MainButton>
       </View>
     );
 }
