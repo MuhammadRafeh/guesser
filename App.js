@@ -2,6 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+// import { useFonts } from "@use-expo/font";
+import {useFonts} from 'expo-font';
+import AppLoading from 'expo-app-loading'
+
 import Header from './components/Header';
 import EndGameScreen from './screens/EndGameScreen';
 import GameScreen from './screens/GameScreen';
@@ -11,6 +15,14 @@ function App() {
 
   const [userNumber, setUserNumber] = useState();
   const [rounds, setRounds] = useState(0)
+
+  let [fontsLoaded] = useFonts({
+    'Inter-Black': require('./assets/fonts/ OpenSans-Regular.tff')
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   const configureNewGameHandler = () => {
     setRounds(0);
