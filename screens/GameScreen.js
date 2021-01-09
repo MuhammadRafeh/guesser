@@ -7,6 +7,7 @@ import {
     Alert,
     ScrollView,
     FlatList,
+    Dimensions,
 } from "react-native";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
@@ -73,6 +74,12 @@ const GameScreen = (props) => {
         setPastGuesses((currentGuesses) => [currentNumber.toString(), ...currentGuesses]);
     };
 
+    let listContainer = styles.listContainer
+
+    if (Dimensions.get('window').width < 350) {
+        listContainer = styles.listContainerBig
+    }
+
     return (
         <View style={styles.screen}>
             <Text style={defaultStyles.title}>Opponent's Guess</Text>
@@ -82,12 +89,12 @@ const GameScreen = (props) => {
                 <MainButton onPress={guessHandler.bind(null, "lower")}>
                     <Ionicons name={"md-remove"} size={24} />
                 </MainButton>
-                <MainButton onPress={guessHandler.bind(null, "greater")}>
+                <MainButton onPress={guessHandler.bind(null, "grlistContainereater")}>
                     <Ionicons name={"md-add"} size={24} />
                 </MainButton>
                 {/* <Button title="Greater" onPress={guessHandler.bind(null, 'greater')}/> */}
             </Card>
-            <View style={styles.listContainer}>
+            <View style={listContainer}>
                 {/* <ScrollView contentContainerStyle={styles.list}>
                     {pastGuesses.map((guess, index) =>
                         renderRow(guess, pastGuesses.length - index)
@@ -117,6 +124,11 @@ const styles = StyleSheet.create({
         flex: 1,
         // backgroundColor: 'green'
     },
+    listContainerBig: {
+        width: "80%",
+        flex: 1,
+        // backgroundColor: 'green'
+    },
     list: {
         flexGrow: 1, //flexGrow says that it must be able to take space as it can get
         // alignItems: "center",
@@ -135,7 +147,8 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
-        marginTop: 20,
+        // marginTop: 20,
+        marginTop: Dimensions.get('window').height > 600 ? 20 : 10,
         width: 400,
         maxWidth: "90%",
     },
