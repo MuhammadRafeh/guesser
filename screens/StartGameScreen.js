@@ -20,13 +20,13 @@ const StartGameScreen = props => {
         const recalulateDimensions = () => {
             setDimensions(Dimensions.get('window').width / 4)
         }
-        
+
         Dimensions.addEventListener('change', recalulateDimensions)
         return () => {
             Dimensions.removeEventListener('change', recalulateDimensions);
         }
     })
-    
+
 
     const numberInputHandler = inputText => {
         setEnteredValue(inputText.replace(/[^0-9]/g, '')) //Replace non integer value with empty string
@@ -89,10 +89,10 @@ const StartGameScreen = props => {
                                 value={enteredValue}
                             />
                             <View style={styles.buttonContainer}>
-                                <View style={{width: dimensions}}>
+                                <View style={{ width: dimensions }}>
                                     <Button title='Reset' onPress={resetInputHandler} color={colors.accent} />
                                 </View>
-                                <View style={{width: dimensions}}>
+                                <View style={{ width: dimensions }}>
                                     <Button title='Confirm' onPress={confirmInputHandler} color={colors.primary} />
                                 </View>
                             </View>
