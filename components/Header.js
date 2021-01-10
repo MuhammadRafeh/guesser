@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import colors from '../constants/colors';
 import TitleText from './TitleText';
 
 const Header = props => {
     return (
         <View style={styles.header}>
-            <TitleText>{props.title}</TitleText>
+            <TitleText style={styles.text}>{props.title}</TitleText>
         </View>
     );
 }
@@ -18,8 +18,13 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 90,
         paddingTop: 26,
-        backgroundColor: colors.primary,
+        backgroundColor: Platform.OS === 'android' ? colors.primary : 'white',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderBottomColor: Platform.OS === 'ios' ? '#ccc' : 'transparent',
+        borderBottomWidth: Platform.OS === 'ios' ? 1: 0
+    },
+    text: {
+        color: Platform.OS === 'ios' ? colors.primary : '#fff'
     }
 });
