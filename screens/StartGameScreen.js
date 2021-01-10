@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert, Dimensions, ScrollView, KeyboardAvoidingView } from 'react-native';
 import BodyText from '../components/BodyText';
 
@@ -14,6 +14,19 @@ const StartGameScreen = props => {
     const [enteredValue, setEnteredValue] = useState('');
     const [confirmed, setConfirmed] = useState(false);
     const [selectedNumber, setSelectedNumber] = useState();
+    const [dimensions, setDimensions] = useState(Dimensions.get('window').width / 4);
+
+    useEffect(() => {
+        const recalulateDimensions = () => {
+            setDimensions(Dimensions.get('window').width / 4)
+        }
+        
+        Dimensions.addEventListener('change', recalulateDimensions)
+        return () => {
+            Dimensions.removeEventListener('change', recalulateDimensions);
+        }
+    })
+    
 
     const numberInputHandler = inputText => {
         setEnteredValue(inputText.replace(/[^0-9]/g, '')) //Replace non integer value with empty string
@@ -76,10 +89,10 @@ const StartGameScreen = props => {
                                 value={enteredValue}
                             />
                             <View style={styles.buttonContainer}>
-                                <View style={styles.button}>
+                                <View style={{width: dimensions}}>
                                     <Button title='Reset' onPress={resetInputHandler} color={colors.accent} />
                                 </View>
-                                <View style={styles.button}>
+                                <View style={{width: dimensions}}>
                                     <Button title='Confirm' onPress={confirmInputHandler} color={colors.primary} />
                                 </View>
                             </View>

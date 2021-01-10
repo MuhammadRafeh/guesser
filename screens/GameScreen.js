@@ -29,7 +29,7 @@ const generateRandomNumber = (min, max, exclude) => {
 
 const renderRow = (listLength, Item) => {
     console.log(listLength)
-    return(
+    return (
         <View style={styles.listItem}>
             <BodyText>#{listLength - Item.index}</BodyText>
             <BodyText>{Item.item}</BodyText>
@@ -41,6 +41,7 @@ const GameScreen = (props) => {
     const initialGuess = generateRandomNumber(1, 100, props.userChoice);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
     const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
+    const [windowDimensions, setwindowDimensions] = useState(Dimensions.get('window'))
 
     const low = useRef(1);
     const high = useRef(100);
@@ -48,7 +49,18 @@ const GameScreen = (props) => {
     const { userChoice, onGameEnd } = props;
 
     useEffect(() => {
+        const calculateDimensions = () => {
+            setwindowDimensions(Dimensions.get('window'))
+        }
+        Dimensions.addEventListener('change', calculateDimensions)
+        return () => {
+            Dimensions.removeEventListener('change', calculateDimensions)
+        }
+    })
+
+    useEffect(() => {
         if (userChoice === currentGuess) onGameEnd(pastGuesses.length);
+
     }, [currentGuess, userChoice]);
 
     const guessHandler = (direction) => {
@@ -76,8 +88,40 @@ const GameScreen = (props) => {
 
     let listContainer = styles.listContainer
 
-    if (Dimensions.get('window').width < 350) {
+    if (windowDimensions.width < 350) {
         listContainer = styles.listContainerBig
+    }
+
+    if (windowDimensions.height < 500) {
+        return (
+            <View style={styles.screen}>
+                <Text style={defaultStyles.title}>Opponent's Guess</Text>
+                <View style={styles.controls}>
+                    {/* <Button title="Lower" onPress={guessHandler.bind(null, 'lower')}/> */}
+                    <MainButton onPress={guessHandler.bind(null, "lower")}>
+                        <Ionicons name={"md-remove"} size={24} />
+                    </MainButton>
+                    <NumberContainer>{currentGuess}</NumberContainer>
+                    <MainButton onPress={guessHandler.bind(null, "grlistContainereater")}>
+                        <Ionicons name={"md-add"} size={24} />
+                    </MainButton>
+                    {/* <Button title="Greater" onPress={guessHandler.bind(null, 'greater')}/> */}
+                </View>
+                <View style={listContainer}>
+                    {/* <ScrollView contentContainerStyle={styles.list}>
+                    {pastGuesses.map((guess, index) =>
+                        renderRow(guess, pastGuesses.length - index)
+                    )}
+                </ScrollView> */}
+                    <FlatList
+                        data={pastGuesses}
+                        renderItem={renderRow.bind(null, pastGuesses.length)}
+                        keyExtractor={index => index}
+                        contentContainerStyle={styles.list}
+                    />
+                </View>
+            </View>
+        )
     }
 
     return (
@@ -128,6 +172,12 @@ const styles = StyleSheet.create({
         width: "80%",
         flex: 1,
         // backgroundColor: 'green'
+    },
+    controls: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '80%'
     },
     list: {
         flexGrow: 1, //flexGrow says that it must be able to take space as it can get
